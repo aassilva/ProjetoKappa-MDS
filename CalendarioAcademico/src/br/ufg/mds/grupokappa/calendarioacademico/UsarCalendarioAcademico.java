@@ -5,6 +5,9 @@
  */
 package br.ufg.mds.grupokappa.calendarioacademico;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -16,7 +19,6 @@ public class UsarCalendarioAcademico {
     /**
      * @param args the command line arguments
      */
-    @SuppressWarnings("empty-statement")
     public static void main(String[] args) {
 
         Scanner ler = new Scanner(System.in);
@@ -32,21 +34,57 @@ public class UsarCalendarioAcademico {
 
             switch (op) {
                 case 1:
-                    System.out.println("\nInsira o Nome do evento");
-                    String nomeEvento = ler.nextLine();
-                    System.out.println("Insira a data de Inicio");
-                    String dataInicio = ler.nextLine();
-                    System.out.println("Insira a data de encerramento");
-                    String dataFim = ler.nextLine();
-                    System.out.println("Insira o tipo de evento");
-                    String tipoEvento = ler.nextLine();
-                    System.out.println("Insira a regional");
-                    String regional = ler.nextLine();
+                    String nomeEvento = lerString("Insira o Nome do evento:");
 
-                    Evento teste = new Evento(nomeEvento, dataInicio, dataFim, tipoEvento,
-                            regional);
+                    Date dataInicio = lerDate("Insira a data de início: "
+                            + "(FORMATO: DD/MM/AAAA)");
 
-                    ufg.addEvento(teste);
+                    Date dataFim = lerDate("Insira a data de encerramento "
+                            + "(FORMATO: DD/MM/AAAA):");
+
+                    while (dataFim.compareTo(dataInicio) < 0) {
+                        System.out.println("A data de encerramento não pode ser"
+                                + " anterior à data de início");
+                        dataFim = lerDate("Insira a data de encerramento: "
+                                + "(FORMATO: DD/MM/AAAA)");
+                    }
+
+                    String tipoEvento = lerString("Insira o tipo de evento:");
+
+                    int regional = 0;
+                    boolean flag = false;
+
+                    while (!flag) {
+                        opcoesRegionais();
+                        try {
+                            regional = Integer.parseInt(ler.nextLine());
+                        } catch (NumberFormatException nfe) {
+                        }
+
+                        switch (regional) {
+                            case 1:
+                                flag = true;
+                                break;
+                            case 2:
+                                flag = true;
+                                break;
+                            case 3:
+                                flag = true;
+                                break;
+                            case 4:
+                                flag = true;
+                                break;
+                            default:
+                                System.out.println("Opção Inválida, "
+                                        + "tente novamente:");
+                                flag = false;
+                        }
+                    }
+
+                    Evento novoEvento = new Evento(nomeEvento, dataInicio, dataFim,
+                            tipoEvento, regional);
+
+                    ufg.addEvento(novoEvento);
                     break;
 
                 case 2:
@@ -74,4 +112,75 @@ public class UsarCalendarioAcademico {
         System.out.println("Regional: " + teste.getRegional() + "\n");
     }
 
+    public static String lerString(String mensagem) {
+        String leitura = null;
+        boolean flag = false;
+
+        while (!flag) {
+
+            try {
+                Scanner leitor = new Scanner(System.in);
+                System.out.println(mensagem);
+                leitura = leitor.nextLine();
+
+                checaEntradaNula(leitura);
+                checaEntradaInvalida(leitura);
+                flag = true;
+
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return leitura;
+    }
+
+    public static Date lerDate(String mensagem) {
+        Scanner ler = new Scanner(System.in);
+        SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+        formatoData.setLenient(false);
+        Date data = null;
+
+        while (data == null) {
+            try {
+
+                System.out.println(mensagem);
+                String dataString = ler.nextLine();
+                data = formatoData.parse(dataString);
+
+            } catch (ParseException pe) {
+                System.out.println("Data Inserida Inválida, tente novamente:");
+                data = null;
+            }
+        }
+
+        return data;
+
+    }
+
+    private static void checaEntradaNula(String nome) {
+        if (nome == null || "".equals(nome)) {
+            throw new RuntimeException("A entrada não pode ser nula ou vazia, "
+                    + "tente novamente:");
+        }
+    }
+
+    private static void checaEntradaInvalida(String nome) {
+        try {
+            Float.parseFloat(nome);
+            throw new RuntimeException("A entrada não pode ser número, "
+                    + "tente novamente:");
+        } catch (NumberFormatException excecao) {
+        }
+    }
+
+    public static void opcoesRegionais() {
+        System.out.println("Insira o codigo para escolher a regional "
+                + "desejada: ");
+        System.out.println("1 - Goiânia");
+        System.out.println("2 - Catalão");
+        System.out.println("3 - Goiás");
+        System.out.println("4 - Jataí");
+
+    }
 }
