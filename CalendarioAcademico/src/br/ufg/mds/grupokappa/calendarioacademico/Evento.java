@@ -17,39 +17,40 @@ public class Evento {
 
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-    private final String NomeEvento;
-    private final Date DataInicio;
-    private final Date DataFim;
-    private final String TipoEvento;
-    private final int Regional;
+    private final String nomeEvento;
+    private final Date dataInicio;
+    private final Date dataFim;
+    private final String descricaoEvento;
+    private final int regional;
 
-    public Evento(String NomeEvento, Date DataInicio, Date DataFim,
-            String TipoEvento, int Regional) {
-        this.NomeEvento = NomeEvento;
-        this.DataInicio = DataInicio;
-        this.DataFim = DataFim;
-        this.TipoEvento = TipoEvento;
-        this.Regional = Regional;
+    public Evento(String nomeEvento, Date dataInicio, Date dataFim, 
+            String descricaoEvento, int regional) {
+        this.nomeEvento = nomeEvento;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.descricaoEvento = descricaoEvento;
+        this.regional = regional;
     }
 
+
     public String getNomeEvento() {
-        return NomeEvento;
+        return nomeEvento;
     }
 
     public String getDataInicio() {
-        return df.format(DataInicio);
+        return df.format(dataInicio);
     }
 
     public String getDataFim() {
-        return df.format(DataFim);
+        return df.format(dataFim);
     }
 
-    public String getTipoEvento() {
-        return TipoEvento;
+    public String getDescricaoEvento() {
+        return descricaoEvento;
     }
 
     public String getRegional() {
-        switch (Regional) {
+        switch (regional) {
             case 1:
                 return "Goiânia";
             case 2:
