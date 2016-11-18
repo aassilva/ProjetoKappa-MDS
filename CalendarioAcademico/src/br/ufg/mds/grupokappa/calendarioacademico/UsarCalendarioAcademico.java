@@ -49,8 +49,6 @@ public class UsarCalendarioAcademico {
                                 + "(FORMATO: DD/MM/AAAA)");
                     }
 
-                    String tipoEvento = lerString("Insira o tipo de evento:");
-
                     int regional = 0;
                     boolean flag = false;
 
@@ -81,8 +79,11 @@ public class UsarCalendarioAcademico {
                         }
                     }
 
-                    Evento novoEvento = new Evento(nomeEvento, dataInicio, dataFim,
-                            tipoEvento, regional);
+                    String descricaoEvento = lerString("Insira uma breve "
+                            + "descrição para o evento:");
+
+                    Evento novoEvento = new Evento(nomeEvento, dataInicio, 
+                            dataFim, descricaoEvento, regional);
 
                     ufg.addEvento(novoEvento);
                     break;
@@ -108,8 +109,10 @@ public class UsarCalendarioAcademico {
         System.out.println("-------------------------");
         System.out.println("Data Inicio: " + teste.getDataInicio());
         System.out.println("Data FIm: " + teste.getDataFim());
-        System.out.println("Tipo do Evento: " + teste.getTipoEvento());
-        System.out.println("Regional: " + teste.getRegional() + "\n");
+        System.out.println("Regional: " + teste.getRegional());
+        System.out.println("Descrição do Evento: " + 
+                teste.getDescricaoEvento());
+
     }
 
     public static String lerString(String mensagem) {
@@ -170,8 +173,7 @@ public class UsarCalendarioAcademico {
             Float.parseFloat(nome);
             throw new RuntimeException("A entrada não pode ser número, "
                     + "tente novamente:");
-        } catch (NumberFormatException excecao) {
-        }
+        } catch (NumberFormatException excecao) { }
     }
 
     public static void opcoesRegionais() {
