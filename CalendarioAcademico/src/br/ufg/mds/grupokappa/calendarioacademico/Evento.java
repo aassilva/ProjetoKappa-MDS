@@ -5,20 +5,26 @@
  */
 package br.ufg.mds.grupokappa.calendarioacademico;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author sofia
  */
 public class Evento {
 
-    private final String NomeEvento;
-    private final String DataInicio;
-    private final String DataFim;
-    private final String TipoEvento;
-    private final String Regional;
+    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Evento(String NomeEvento, String DataInicio, String DataFim, 
-            String TipoEvento, String Regional) {
+    private final String NomeEvento;
+    private final Date DataInicio;
+    private final Date DataFim;
+    private final String TipoEvento;
+    private final int Regional;
+
+    public Evento(String NomeEvento, Date DataInicio, Date DataFim,
+            String TipoEvento, int Regional) {
         this.NomeEvento = NomeEvento;
         this.DataInicio = DataInicio;
         this.DataFim = DataFim;
@@ -31,11 +37,11 @@ public class Evento {
     }
 
     public String getDataInicio() {
-        return DataInicio;
+        return df.format(DataInicio);
     }
 
     public String getDataFim() {
-        return DataFim;
+        return df.format(DataFim);
     }
 
     public String getTipoEvento() {
@@ -43,9 +49,18 @@ public class Evento {
     }
 
     public String getRegional() {
-        return Regional;
+        switch (Regional) {
+            case 1:
+                return "Goiânia";
+            case 2:
+                return "Catalão";
+            case 3:
+                return "Goiás";
+            case 4:
+                return "Jataí";
+            default:
+                return null;
+        }
     }
-    
-    
 
 }
